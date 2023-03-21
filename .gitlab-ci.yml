@@ -1,0 +1,32 @@
+Lint JS:
+  image: node:18-alpine
+  stage: test
+  variables:
+    ESLINT_CODE_QUALITY_REPORT: "$CI_PROJECT_DIR/eslint-report.json"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  tags:
+    - docker
+  script:
+    - npm ci
+    - npm run lint:ci -- --no-fix --report-unused-disable-directives --max-warnings 0
+  artifacts:
+    reports:
+      codequality: "$ESLINT_CODE_QUALITY_REPORT"
+
+Lint PHP:
+  image: composer:latest
+  stage: test
+  variables:
+    PHPCS_CODE_QUALITY_REPORT: "$CI_PROJECT_DIR/phpcs-report.json"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  tags:
+    - docker
+  before_script:
+    - composer global require squizlabs/php_codesniffer  micheh/phpcs-gitlab
+  script:
+    - $COMPOSER_HOME/vendor/bin/phpcs --report=full --report-\\Micheh\\PhpCodeSniffer\\Report\\Gitlab=$PHPCS_CODE_QUALITY_REPORT
+  artifacts:
+    reports:
+      codequality: "$PHPCS_CODE_QUALITY_REPORT"
