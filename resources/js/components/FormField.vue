@@ -18,11 +18,7 @@
           min-zoom="1"
           @ready="onMapReady"
         >
-          <l-tile-layer
-            layer-type="base"
-            name="OpenStreetMap"
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+          <l-tile-layer v-bind="tileLayer" />
           <l-marker
             v-if="cHasCurrentValue"
             :lat-lng="currentValue"
