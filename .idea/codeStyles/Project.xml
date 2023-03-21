@@ -46,6 +46,9 @@
     <VueCodeStyleSettings>
       <option name="INDENT_CHILDREN_OF_TOP_LEVEL" value="template, style" />
     </VueCodeStyleSettings>
+    <editorconfig>
+      <option name="ENABLED" value="false" />
+    </editorconfig>
     <codeStyleSettings language="HTML">
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />
