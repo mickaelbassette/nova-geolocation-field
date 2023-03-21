@@ -15,6 +15,12 @@ class Geolocation extends Field
     const DEFAULT_LATITUDE = 52.520008;
     const DEFAULT_LONGITUDE = 13.404954;
     const DEFAULT_ZOOM = 10;
+    const TILE_LAYER_OPENSTREETMAP = [
+        'layer-type' => 'base',
+        'name' => 'OpenStreetMap',
+        'url' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        'attribution' => '&copy; <a target="_blank" href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+    ];
 
     public $component = 'geolocation-field';
 
@@ -28,6 +34,7 @@ class Geolocation extends Field
         $this->defaultLatitude(static::DEFAULT_LATITUDE);
         $this->defaultLongitude(static::DEFAULT_LONGITUDE);
         $this->defaultZoom(static::DEFAULT_ZOOM);
+        $this->tileLayer(static::TILE_LAYER_OPENSTREETMAP);
     }
 
     public function defaultLatitude(float $latitude): static
@@ -53,6 +60,41 @@ class Geolocation extends Field
     public function longitudeField($fieldName): static
     {
         return $this->withMeta([__FUNCTION__ => $fieldName]);
+    }
+
+    public function streetField($fieldName): static
+    {
+        return $this->withMeta([__FUNCTION__ => $fieldName]);
+    }
+
+    public function streetNumberField($fieldName): static
+    {
+        return $this->withMeta([__FUNCTION__ => $fieldName]);
+    }
+
+    public function postalCodeField($fieldName): static
+    {
+        return $this->withMeta([__FUNCTION__ => $fieldName]);
+    }
+
+    public function cityField($fieldName): static
+    {
+        return $this->withMeta([__FUNCTION__ => $fieldName]);
+    }
+
+    public function countryField($fieldName): static
+    {
+        return $this->withMeta([__FUNCTION__ => $fieldName]);
+    }
+
+    public function regionField($fieldName): static
+    {
+        return $this->withMeta([__FUNCTION__ => $fieldName]);
+    }
+
+    public function tileLayer(array $config): static
+    {
+        return $this->withMeta([__FUNCTION__ => $config]);
     }
 
     /**
@@ -84,8 +126,6 @@ class Geolocation extends Field
         $longitude = $resource->{$longitudeField};
 
         $this->value = json_encode([
-            'latitudeField' => $latitudeField,
-            'longitudeField' => $longitudeField,
             'latitude' => !is_null($latitude) ? (float) $latitude : null,
             'longitude' => !is_null($longitude) ? (float) $longitude : null,
         ]);
