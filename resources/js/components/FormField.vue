@@ -1,6 +1,6 @@
 <template>
   <DefaultField
-    class="map-form-field"
+    class="geolocation-form-field"
     :errors="errors"
     :field="currentField"
     :full-width-content="fullWidthContent"
@@ -8,7 +8,7 @@
   >
     <template #field>
       <div
-        class="map-form-field__container"
+        class="geolocation-form-field__container"
         :class="errorClasses"
       >
         <l-map
@@ -132,11 +132,6 @@ export default {
       this.value = this.currentField.value || ''
     },
     fill (formData) {
-      const value = JSON.parse(this.currentField.value)
-      value.latitude = this.newValue[0]
-      value.longitude = this.newValue[1]
-
-      formData.append(this.currentField.attribute, JSON.stringify(value))
     },
   },
 }
@@ -145,8 +140,8 @@ export default {
 <style
   lang="scss"
 >
-  .map-form-field {
-    .map-form-field__container {
+  .geolocation-form-field {
+    .geolocation-form-field__container {
       max-width: 100%;
       width: 100%;
       height: 350px;

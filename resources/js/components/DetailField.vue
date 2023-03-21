@@ -1,11 +1,11 @@
 <template>
   <PanelItem
-    class="map-detail-field"
+    class="geolocation-detail-field"
     :field="field"
     :index="index"
   >
     <template #value>
-      <div class="map-detail-field__container">
+      <div class="geolocation-detail-field__container">
         <l-map
           ref="map"
           v-model:zoom="zoom"
@@ -110,8 +110,8 @@ export default {
 <style
   lang="scss"
 >
-.map-detail-field {
-  .map-detail-field__container {
+.geolocation-detail-field {
+  .geolocation-detail-field__container {
     max-width: 100%;
     width: 100%;
     height: 350px;
