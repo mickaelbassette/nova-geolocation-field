@@ -1,0 +1,11 @@
+/dist
+/node_modules
+/vendor
+.eslintrc.js
+/js/components_old
+# Ignore metrics with ESLINT
+#  Those files are mainly copied from the nova-sources,
+#  To be able to apply updates from the nova-sources with ease
+#  its best to keep them as original as possible.
+#  Thaty why the projects eslint-rules should never be applied to those files
+/js/components/Metrics/Linkable
