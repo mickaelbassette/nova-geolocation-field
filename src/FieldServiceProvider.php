@@ -11,6 +11,9 @@ class FieldServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this->publishes([
+            __DIR__ . '/../resources/dist' => public_path('vendor/gabelbart/nova-geolocation-field'),
+        ], ['laravel-assets']);
         Nova::serving(function (ServingNova $event) {
             Nova::script('geolocation-field', __DIR__.'/../dist/js/field.js');
             Nova::style('geolocation-field', __DIR__.'/../dist/css/field.css');
