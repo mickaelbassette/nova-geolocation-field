@@ -2,6 +2,7 @@
 
 namespace Gabelbart\Laravel\Nova\Fields\Geolocation;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 use Laravel\Nova\Events\ServingNova;
@@ -13,6 +14,10 @@ class FieldServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->app->booted(function () {
+            $this->routes();
+        });
+
         $this->publishes([
             __DIR__ . '/../dist' => public_path(static::PUBLIC_ASSETS_PATH),
         ], ['laravel-assets']);
@@ -43,5 +48,16 @@ class FieldServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    protected function routes()
+    {
+        if ($this->app->routesAreCached()) {
+            return;
+        }
+
+        Route::middleware(['nova'])
+            ->prefix('nova-vendor/gabelbart/geolocation-field')
+            ->group(__DIR__.'/../routes/api.php');
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Gabelbart\Laravel\Nova\Fields\Geolocation;
 
+use Illuminate\Support\Facades\Log;
+
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Fields\SupportsDependentFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -103,6 +105,18 @@ class Geolocation extends Field
     public function selectionMode(string $config): static
     {
         return $this->withMeta([__FUNCTION__ => $config]);
+    }
+
+    public function enableGeocoding(bool $flag): static
+    {
+        if (empty(config('geocoder.key'))) {
+            Log::warning('gabelbart/nova-geolocation-field:'
+                . ' geocoding was enabled but no api-key was set for spatie/geocoder!'
+                . ' In order for geocoding to work you need to configure an api-key for Googles geocoding API'
+                . ' via env variable `GOOGLE_MAPS_GEOCODING_API_KEY` or config `geocoder.key`!');
+        }
+
+        return $this->withMeta([__FUNCTION__ => $flag]);
     }
 
     /**
