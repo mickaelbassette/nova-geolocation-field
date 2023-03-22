@@ -7,6 +7,9 @@
     :show-help-text="showHelpText"
   >
     <template #field>
+      <pre>
+        {{ JSON.stringify(this.address, null, 2) }}
+      </pre>
       <div
         class="geolocation-form-field__container"
         :class="errorClasses"
@@ -93,6 +96,11 @@ export default {
     newValue: null,
     value: null,
     address: {},
+    geocoding: {
+      loading: false,
+      cache: {},
+      result: [],
+    },
   }),
   computed: {
     cResource () {
@@ -112,8 +120,7 @@ export default {
       return result
     },
     cHasRequiredAddressComponents () {
-      const propertyExists = property => Object.prototype.hasOwnProperty.call(this.address, property)
-        && this.address[property]
+      const propertyExists = property => !!this.address[property]
 
       return propertyExists('street')
         && propertyExists('city')
@@ -209,7 +216,7 @@ export default {
       }
 
       if (this.cHasRequiredAddressComponents) {
-        // Perform georequest...
+        this.geocode()
       }
     },
     onChangeLatitude (value) {
@@ -217,6 +224,25 @@ export default {
     },
     onChangeLongitude (value) {
       this.setNewLongitude(value)
+    },
+    async geocode () {
+      this.geocoding.loading = true
+      const address = JSON.parse(JSON.stringify(this.address))
+
+      const cacheKey = JSON.stringify(address)
+
+      if (!this.geocoding.cache[cacheKey]) {
+        try {
+          const response = await Nova.request().post('/nova-vendor/gabelbart/geolocation-field/geocode', this.address)
+          this.geolocation.cache[cacheKey] = response.data
+        } catch (e) {
+          this.geolocation.cache[cacheKey] = []
+        } finally {
+          this.geocoding.loading = false
+        }
+      }
+
+      return this.geolocation.cache[cacheKey]
     },
     listenToValueChanges (value) {
       this.setNewValue(value.latitude, value.longitude)
