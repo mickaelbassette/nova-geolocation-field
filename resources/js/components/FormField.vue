@@ -92,8 +92,17 @@ export default {
     currentValue: null,
     newValue: null,
     value: null,
+    address: {},
   }),
   computed: {
+    cHasRequiredAddressComponents () {
+      const propertyExists = property => Object.prototype.hasOwnProperty.call(this.address, property)
+        && this.address[property]
+
+      return propertyExists('street')
+        && propertyExists('city')
+        && propertyExists('country')
+    },
     cSelectViaMove () {
       return !this.field.selectionMode
         || this.field.selectionMode === 'move'
@@ -161,7 +170,30 @@ export default {
       )
     },
     onChangeAddressProperty (property, value) {
+      switch (property) {
+      case 'streetField':
+        this.address.street = value
+        break
+      case 'streetNumberField':
+        this.address.street_number = value
+        break
+      case 'postalCodeField':
+        this.address.postal_code = value
+        break
+      case 'cityField':
+        this.address.city = value
+        break
+      case 'countryField':
+        this.address.country = value
+        break
+      case 'regionField':
+        this.address.region = value
+        break
+      }
 
+      if (this.cHasRequiredAddressComponents) {
+        // Perform georequest...
+      }
     },
     onChangeLatitude (value) {
       this.setNewLatitude(value)
