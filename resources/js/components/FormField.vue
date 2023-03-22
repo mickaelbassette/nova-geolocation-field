@@ -186,11 +186,11 @@ export default {
     },
     emitNewValue (latitude, longitude) {
       Nova.$emit(
-        this.getFieldAttributeValueEventName(this.latitudeField),
+        this.getFieldAttributeValueEventName(this.currentField.latitudeField),
         latitude
       )
       Nova.$emit(
-        this.getFieldAttributeValueEventName(this.longitudeField),
+        this.getFieldAttributeValueEventName(this.currentField.longitudeField),
         longitude
       )
     },
