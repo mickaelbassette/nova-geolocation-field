@@ -3,7 +3,7 @@
     class="geolocation-form-field"
     :errors="errors"
     :field="currentField"
-    :full-width-content="fullWidthContent"
+    full-width-content
     :show-help-text="showHelpText"
   >
     <template #field>
