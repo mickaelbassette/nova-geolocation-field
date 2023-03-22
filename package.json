@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "@vue-leaflet/vue-leaflet": "^0.9.0",
-    "leaflet": "^1.9.3",
     "@vue/compiler-sfc": "^3.2.22",
     "eslint": "^8.33.0",
     "eslint-config-standard": "^17.0.0",
@@ -26,8 +25,11 @@
     "eslint-plugin-vue": "^9.9.0",
     "form-backend-validation": "^2.3.3",
     "laravel-mix": "^6.0.41",
+    "leaflet": "^1.9.3",
     "lodash": "^4.17.21",
     "postcss": "^8.3.11",
+    "sass": "^1.59.3",
+    "sass-loader": "^13.2.1",
     "vue-loader": "^16.8.3"
   },
   "dependencies": {
