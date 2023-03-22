@@ -107,8 +107,13 @@ class Geolocation extends Field
         return $this->withMeta([__FUNCTION__ => $config]);
     }
 
-    public function enableGeocoding(bool $flag): static
+    public function enableGeocoding(bool $flag = true): static
     {
+        if (!class_exists('\Spatie\Geocoder\Facades\Geocoder')) {
+            Log::warning('gabelbart/nova-geolocation-field:'
+                . ' geocoding was enabled but the spatie/geocoder package is not installed!'
+                . ' In order for geocoding to work you need to install it via `composer require spatie/geocoder:^3`!');
+        }
         if (empty(config('geocoder.key'))) {
             Log::warning('gabelbart/nova-geolocation-field:'
                 . ' geocoding was enabled but no api-key was set for spatie/geocoder!'

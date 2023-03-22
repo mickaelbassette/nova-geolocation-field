@@ -3,12 +3,15 @@
 namespace Gabelbart\Laravel\Nova\Fields\Geolocation\Http;
 
 use Illuminate\Routing\Controller;
-use Spatie\Geocoder\Facades\Geocoder;
 
 class GeocodingController extends Controller
 {
-    public function __invoke(GeocodingRequest $request)
+    public function __invoke(GeocodingRequest $request): array
     {
+        if (!class_exists('\Spatie\Geocoder\Facades\Geocoder')) {
+            return [];
+        }
+
         $address = $request->validated();
 
         $addressString = $address[GeocodingRequest::STREET];
@@ -31,6 +34,6 @@ class GeocodingController extends Controller
             $addressString .= " {$address[GeocodingRequest::REGION]}";
         }
 
-        return Geocoder::getAllCoordinatesForAddress($addressString);
+        return \Spatie\Geocoder\Facades\Geocoder::getAllCoordinatesForAddress($addressString);
     }
 }
