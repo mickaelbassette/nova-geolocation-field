@@ -22,6 +22,9 @@ class Geolocation extends Field
         'attribution' => '&copy; <a target="_blank" href="https://osm.org/copyright">OpenStreetMap</a> contributors'
     ];
 
+    const SELECTION_MODE_DBCLICK = 'dbclick';
+    const SELECTION_MODE_MOVE = 'move';
+
     public $component = 'geolocation-field';
 
     public function __construct($name, $attribute = null, callable $resolveCallback = null)
@@ -93,6 +96,11 @@ class Geolocation extends Field
     }
 
     public function tileLayer(array $config): static
+    {
+        return $this->withMeta([__FUNCTION__ => $config]);
+    }
+
+    public function selectionMode(string $config): static
     {
         return $this->withMeta([__FUNCTION__ => $config]);
     }

@@ -16,6 +16,7 @@
           v-model:zoom="zoom"
           :max-zoom="18"
           :min-zoom="1"
+          :options="{ doubleClickZoom: false }"
           @ready="onMapReady"
           @update:bounds="onUpdateBounds"
         >
@@ -93,6 +94,14 @@ export default {
     value: null,
   }),
   computed: {
+    cSelectViaMove () {
+      return !this.field.selectionMode
+        || this.field.selectionMode === 'move'
+    },
+    cSelectViaDbclick () {
+      return this.field.selectionMode
+        && this.field.selectionMode === 'dbclick'
+    },
     cHasCurrentValue () {
       return this.value?.latitude !== null
         && this.value?.longitude !== null
@@ -171,12 +180,25 @@ export default {
       map.panTo(center)
       map.addEventListener(
         'move',
-        event => this.onUpdateCenter(event.target.getCenter())
+        event => this.onMoveMap(event.target.getCenter())
+      )
+      map.addEventListener(
+        'dblclick',
+        event => this.onDbclickMap(event)
       )
     },
-    onUpdateCenter (center) {
-      this.setNewValue(center.lat, center.lng)
-      this.emitNewValue(center.lat, center.lng)
+    onMoveMap (center) {
+      if (this.cSelectViaMove) {
+        this.setNewValue(center.lat, center.lng)
+        this.emitNewValue(center.lat, center.lng)
+      }
+    },
+    onDbclickMap (event) {
+      if (this.cSelectViaDbclick) {
+        const position = event.latlng
+        this.setNewValue(position.lat, position.lng)
+        this.emitNewValue(position.lat, position.lng)
+      }
     },
     panMapToNewValue () {
       this.$refs.map.leafletObject.panTo(this.newValue)
