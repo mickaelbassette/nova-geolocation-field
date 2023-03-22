@@ -95,6 +95,22 @@ export default {
     address: {},
   }),
   computed: {
+    cResource () {
+      const result = {}
+
+      let parent = this.$parent
+      while (parent.$parent && !parent.$data.fields) {
+        parent = parent.$parent
+      }
+
+      if (parent.$data.fields) {
+        for (const field of Object.values(parent.$data.fields)) {
+          result[field.attribute] = field.value
+        }
+      }
+
+      return result
+    },
     cHasRequiredAddressComponents () {
       const propertyExists = property => Object.prototype.hasOwnProperty.call(this.address, property)
         && this.address[property]
@@ -157,6 +173,7 @@ export default {
             this.getFieldAttributeChangeEventName(this.currentField[property]),
             value => this.onChangeAddressProperty(property, value)
           )
+          this.onChangeAddressProperty(property, this.cResource[this.currentField[property]])
         }
       }
 
