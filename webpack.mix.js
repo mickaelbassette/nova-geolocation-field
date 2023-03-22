@@ -24,4 +24,4 @@ mix
     './node_modules/leaflet/dist/images',
     './dist/leaflet/dist/images'
   )
-  .nova('Gabelbart/Geolocation')
+  .nova('gabelbart/geolocation-field')
