@@ -151,7 +151,7 @@ export default {
       this.bounds = bounds
     },
     registerFieldChangeListeners () {
-      for (const property in ADDRESS_FIELD_PROPS) {
+      for (const property of ADDRESS_FIELD_PROPS) {
         if (this.currentField[property]) {
           Nova.$on(
             this.getFieldAttributeChangeEventName(this.currentField[property]),
