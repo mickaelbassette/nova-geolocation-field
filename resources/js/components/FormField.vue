@@ -18,7 +18,7 @@
           min-zoom="1"
           @ready="onMapReady"
         >
-          <l-tile-layer v-bind="tileLayer" />
+          <l-tile-layer v-bind="currentField.tileLayer" />
           <l-marker
             v-if="cHasCurrentValue"
             :lat-lng="currentValue"

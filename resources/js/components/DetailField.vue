@@ -14,7 +14,7 @@
           @ready="onMapReady"
           @update:center="onUpdateCenter"
         >
-          <l-tile-layer v-bind="tileLayer" />
+          <l-tile-layer v-bind="field.tileLayer" />
           <l-marker
             v-if="cHasValue"
             :lat-lng="marker"
