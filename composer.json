@@ -11,6 +11,7 @@
     },
     "require-dev": {
         "laravel/nova": "^4.22",
+        "spatie/geocoder": "^3",
         "squizlabs/php_codesniffer": "^3.7"
     },
     "autoload": {
@@ -35,5 +36,8 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "suggest": {
+        "spatie/geocoder:^3": "Required for geocoding"
+    }
 }
