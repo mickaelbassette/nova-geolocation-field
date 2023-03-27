@@ -234,15 +234,15 @@ export default {
       if (!this.geocoding.cache[cacheKey]) {
         try {
           const response = await Nova.request().post('/nova-vendor/gabelbart/geolocation-field/geocode', this.address)
-          this.geolocation.cache[cacheKey] = response.data
+          this.geocoding.cache[cacheKey] = response.data
         } catch (e) {
-          this.geolocation.cache[cacheKey] = []
+          this.geocoding.cache[cacheKey] = []
         } finally {
           this.geocoding.loading = false
         }
       }
 
-      return this.geolocation.cache[cacheKey]
+      return this.geocoding.cache[cacheKey]
     },
     listenToValueChanges (value) {
       this.setNewValue(value.latitude, value.longitude)
