@@ -395,10 +395,12 @@ export default {
           this.address.region = component.long_name
           this.emitAddressComponent('regionField', component.long_name)
         } else if (component.types.includes('country')) {
-          this.address.region = component.long_name
-          this.emitAddressComponent('countryField', component.long_name)
+          const value = this.writeBackGeocodedCountryLongFormat ? component.long_name : component.short_name
+
+          this.address.country = value
+          this.emitAddressComponent('countryField', value)
         } else if (component.types.includes('postal_code')) {
-          this.address.region = component.long_name
+          this.address.postal_code = component.long_name
           this.emitAddressComponent('postalCodeField', component.long_name)
         }
       }
