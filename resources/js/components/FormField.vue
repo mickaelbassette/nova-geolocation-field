@@ -9,7 +9,7 @@
     <template #field>
       <div>
         <Card
-          v-for="result in geocoding.result"
+          v-for="result in cGeocodingResults"
           :key="result.place_id"
           class="mb-2 px-3 py-2 flex justify-between items-center bg-gray-200 dark:bg-gray-700"
         >
@@ -118,6 +118,17 @@ export default {
     },
   }),
   computed: {
+    cGeocodingResults () {
+      return this.geocoding.result?.filter(result => !((
+        !this.cHasNewValue
+        && result.lat !== this.newValue[0]
+        && result.lng !== this.newValue[1]
+      ) || !(
+        !this.cHasCurrentValue
+        && result.lat !== this.value.latitude
+        && result.lng !== this.value.longitude
+      ))) ?? []
+    },
     cResource () {
       const result = {}
 
