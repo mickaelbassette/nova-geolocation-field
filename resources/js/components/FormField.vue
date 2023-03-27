@@ -120,13 +120,14 @@ export default {
   computed: {
     cGeocodingResults () {
       return this.geocoding.result?.filter(result => !((
+        this.cHasNewValue
+        && result.lat === this.newValue[0]
+        && result.lng === this.newValue[1]
+      ) || (
         !this.cHasNewValue
-        && result.lat !== this.newValue[0]
-        && result.lng !== this.newValue[1]
-      ) || !(
-        !this.cHasCurrentValue
-        && result.lat !== this.value.latitude
-        && result.lng !== this.value.longitude
+        && this.cHasCurrentValue
+        && result.lat === this.value.latitude
+        && result.lng === this.value.longitude
       ))) ?? []
     },
     cResource () {
