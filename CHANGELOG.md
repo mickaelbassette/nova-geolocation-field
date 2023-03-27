@@ -1,3 +1,5 @@
+## 0.2.0 - 2023-03-27
+
 **Features:**
 * Allow writing back components of the selected Address to the form
 
