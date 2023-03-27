@@ -24,12 +24,12 @@ class GeocodingController extends Controller
             $address
         ));
         ksort($cacheKey);
-        $cacheKey = static::class . ":" . hash('md5', json_encode($cacheKey));
+        $cacheKey = static::class . ":" . hash('md5', json_encode($cacheKey)) . ":" . config('app.locale');
 
         if (Geolocation::shouldCacheGeocodingResults()) {
             $result = Cache::get($cacheKey, fn () => $this->performGeocoding($request, $address));
             // Touches the cache everytime its hit
-            Cache::set($cacheKey, Geolocation::getGeocodingCacheTtl());
+            Cache::set($cacheKey, $result, Geolocation::getGeocodingCacheTtl());
 
             return $result;
         } else {
@@ -59,6 +59,7 @@ class GeocodingController extends Controller
             $addressString .= " {$address[GeocodingRequest::REGION]}";
         }
 
-        return \Spatie\Geocoder\Facades\Geocoder::getAllCoordinatesForAddress($addressString);
+        return \Spatie\Geocoder\Facades\Geocoder::setLanguage(config('app.locale'))
+            ->getAllCoordinatesForAddress($addressString);
     }
 }
