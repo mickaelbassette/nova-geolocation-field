@@ -242,7 +242,9 @@ export default {
         }
       }
 
-      return this.geocoding.cache[cacheKey]
+      this.geocoding.result = this.geocoding.cache[cacheKey]
+
+      return this.geocoding.result
     },
     listenToValueChanges (value) {
       this.setNewValue(value.latitude, value.longitude)
