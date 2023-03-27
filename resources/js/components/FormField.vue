@@ -97,6 +97,7 @@ export default {
     value: null,
     address: {},
     geocoding: {
+      timeout: null,
       loading: false,
       cache: {},
       result: [],
@@ -118,6 +119,9 @@ export default {
       }
 
       return result
+    },
+    cDebounce () {
+      return Nova.config('debounce')
     },
     cHasRequiredAddressComponents () {
       const propertyExists = property => !!this.address[property]
@@ -215,8 +219,8 @@ export default {
         break
       }
 
-      if (this.cHasRequiredAddressComponents) {
-        this.geocode()
+      if (this.cHasRequiredAddressComponents && this.currentField.enableGeocoding) {
+        this.geocodeDebounced()
       }
     },
     onChangeLatitude (value) {
@@ -224,6 +228,17 @@ export default {
     },
     onChangeLongitude (value) {
       this.setNewLongitude(value)
+    },
+    cancelDebouncedGeocoding () {
+      if (this.geocoding.timeout) {
+        clearTimeout(this.geocoding.timeout)
+      }
+
+      this.geocoding.timeout = null
+    },
+    geocodeDebounced () {
+      this.cancelDebouncedGeocoding()
+      this.geocoding.timeout = setTimeout(() => this.geocode(), this.cDebounce)
     },
     async geocode () {
       this.geocoding.loading = true
