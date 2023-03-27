@@ -7,9 +7,22 @@
     :show-help-text="showHelpText"
   >
     <template #field>
-      <pre>
-        {{ JSON.stringify(this.address, null, 2) }}
-      </pre>
+      <div>
+        <Card
+          v-for="result in geocoding.result"
+          :key="result.place_id"
+          class="mb-2 px-3 py-2 flex justify-between items-center bg-gray-200 dark:bg-gray-700"
+        >
+          <div class="text-lg">
+            {{ result.formatted_address }}
+          </div>
+          <div>
+            <DefaultButton
+              @click.stop.prevent="onClickSelectAddress(result)"
+            >{{ __('nova_geolocation_field.select_geocoded_address') }}</DefaultButton>
+          </div>
+        </Card>
+      </div>
       <div
         class="geolocation-form-field__container"
         :class="errorClasses"
@@ -174,6 +187,9 @@ export default {
     this.zoom = this.field.defaultZoom
   },
   methods: {
+    onClickSelectAddress (result) {
+      this.setNewValue(result.lat, result.lng)
+    },
     onUpdateBounds (bounds) {
       this.bounds = bounds
     },
