@@ -381,7 +381,6 @@ export default {
       this.ignoreAddressChanges = true
 
       for (const component of result.address_components) {
-        console.log(component)
         if (component.types.includes('street_number')) {
           this.address.street_number = component.long_name
           this.emitAddressComponent('streetNumberField', component.long_name)
