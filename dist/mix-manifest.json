@@ -1,0 +1,12 @@
+{
+    "/js/field.js": "/js/field.js",
+    "/js/manifest.js": "/js/manifest.js",
+    "/css/field.css": "/css/field.css",
+    "/css/leaflet.css": "/css/leaflet.css",
+    "/js/vendor.js": "/js/vendor.js",
+    "/leaflet/dist/images/layers-2x.png": "/leaflet/dist/images/layers-2x.png",
+    "/leaflet/dist/images/layers.png": "/leaflet/dist/images/layers.png",
+    "/leaflet/dist/images/marker-icon-2x.png": "/leaflet/dist/images/marker-icon-2x.png",
+    "/leaflet/dist/images/marker-icon.png": "/leaflet/dist/images/marker-icon.png",
+    "/leaflet/dist/images/marker-shadow.png": "/leaflet/dist/images/marker-shadow.png"
+}
