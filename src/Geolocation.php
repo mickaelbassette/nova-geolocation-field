@@ -155,16 +155,6 @@ class Geolocation extends Field
      */
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
     {
-        if ($request->exists($requestAttribute)) {
-            $result = json_decode($request->{$requestAttribute}, false);
-
-            $model->{$result->latitudeField} = $this->isValidNullValue($result->latitude)
-                ? null
-                : $result->latitude;
-            $model->{$result->longitudeField} = $this->isValidNullValue($result->longitude)
-                ? null
-                : $result->longitude;
-        }
     }
 
     /**
