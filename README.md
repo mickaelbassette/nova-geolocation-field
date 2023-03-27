@@ -181,7 +181,7 @@ Change the selection mode.
   ->selectionMode(\Gabelbart\Laravel\Nova\Fields\Geolocation\Geolocation::SELECTION_MODE_DBCLICK);
 ```
 
-#### `enableGeocoding(bool $flag)`
+#### `enableGeocoding(bool $flag = true)`
 
 Enable the geocoding feature.
  For the geocoding feature to work you need to install and set up `spatie/geocoder:^3`.
@@ -195,6 +195,29 @@ Enable the geocoding feature.
   ->cityField('street')
   ->cityField('city')
   ->cityField('country')
+  ->enableGeocoding();
+```
+
+#### `writeBackGeocodedAddress(bool $flag = true)`
+
+This option requires configured address fields and enabled geocoding.
+ When a geocoded address is selected, the values for the address components get written back to the input fields. 
+
+```php
+\String::make('Street');
+\String::make('Street Number');
+\String::make('City');
+\String::make('Zip');
+\String::make('Country');
+\String::make('Region');
+\Gabelbart\Laravel\Nova\Fields\Geolocation\Geolocation::make('Map position')
+  ->writeBackGeocodedAddress()
+  ->cityField('street')
+  ->cityField('street_number')
+  ->cityField('city')
+  ->postalCodeField('zip')
+  ->cityField('country')
+  ->regionField('region')
   ->enableGeocoding();
 ```
 

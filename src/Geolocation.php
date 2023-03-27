@@ -133,6 +133,11 @@ class Geolocation extends Field
         return $this->withMeta([__FUNCTION__ => $config]);
     }
 
+    public function writeBackGeocodedAddress(bool $flag = true): static
+    {
+        return $this->withMeta([__FUNCTION__ => $flag]);
+    }
+
     public function enableGeocoding(bool $flag = true): static
     {
         if (!class_exists('\Spatie\Geocoder\Facades\Geocoder')) {

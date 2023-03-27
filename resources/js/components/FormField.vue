@@ -110,6 +110,7 @@ export default {
     newValue: null,
     value: null,
     address: {},
+    ignoreAddressChanges: false,
     geocoding: {
       timeout: null,
       loading: false,
@@ -207,6 +208,9 @@ export default {
     onClickSelectAddress (result) {
       this.setNewValue(result.lat, result.lng)
       this.emitNewValue(result.lat, result.lng)
+      if (this.currentField.writeBackGeocodedAddress) {
+        this.writeBackGeocodedAddress(result)
+      }
     },
     onUpdateBounds (bounds) {
       this.bounds = bounds
@@ -253,7 +257,10 @@ export default {
         break
       }
 
-      if (this.cHasRequiredAddressComponents && this.currentField.enableGeocoding) {
+      if (!this.ignoreAddressChanges
+        && this.cHasRequiredAddressComponents
+        && this.currentField.enableGeocoding
+      ) {
         this.geocodeDebounced()
       }
     },
@@ -344,6 +351,15 @@ export default {
         longitude
       )
     },
+    emitAddressComponent (prop, value) {
+      const attribute = this.currentField[prop]
+      if (attribute) {
+        Nova.$emit(
+          this.getFieldAttributeValueEventName(attribute),
+          value
+        )
+      }
+    },
     setNewValue (latitude, longitude) {
       this.newValue = [latitude, longitude]
       if (!this.cNewValueIsWithinBounds) {
@@ -361,6 +377,34 @@ export default {
     },
     fill (formData) {
     },
+    writeBackGeocodedAddress (result) {
+      this.ignoreAddressChanges = true
+
+      for (const component of result.address_components) {
+        console.log(component)
+        if (component.types.includes('street_number')) {
+          this.address.street_number = component.long_name
+          this.emitAddressComponent('streetNumberField', component.long_name)
+        } else if (component.types.includes('route')) {
+          this.address.street = component.long_name
+          this.emitAddressComponent('streetField', component.long_name)
+        } else if (component.types.includes('locality')) {
+          this.address.city = component.long_name
+          this.emitAddressComponent('cityField', component.long_name)
+        } else if (component.types.includes('administrative_area_level_1')) {
+          this.address.region = component.long_name
+          this.emitAddressComponent('regionField', component.long_name)
+        } else if (component.types.includes('country')) {
+          this.address.region = component.long_name
+          this.emitAddressComponent('countryField', component.long_name)
+        } else if (component.types.includes('postal_code')) {
+          this.address.region = component.long_name
+          this.emitAddressComponent('postalCodeField', component.long_name)
+        }
+      }
+
+      this.ignoreAddressChanges = false
+    }
   },
 }
 </script>
