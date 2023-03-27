@@ -12,6 +12,8 @@ class Geolocation extends Field
 {
     use SupportsDependentFields;
 
+    protected static bool $cacheGeocodingResults = true;
+
     const DEFAULT_LATITUDE_FIELD = 'latitude';
     const DEFAULT_LONGITUDE_FIELD = 'longitude';
     const DEFAULT_LATITUDE = 52.520008;
@@ -40,6 +42,15 @@ class Geolocation extends Field
         $this->defaultLongitude(static::DEFAULT_LONGITUDE);
         $this->defaultZoom(static::DEFAULT_ZOOM);
         $this->tileLayer(static::TILE_LAYER_OPENSTREETMAP);
+    }
+
+    public static function disableGeocodingCache(bool $flag = true)
+    {
+        static::$cacheGeocodingResults = !$flag;
+    }
+    public static function shouldCacheGeocodingResults(): bool
+    {
+        return static::$cacheGeocodingResults;
     }
 
     public function defaultLatitude(float $latitude): static

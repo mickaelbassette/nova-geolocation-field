@@ -3,6 +3,9 @@
 namespace Gabelbart\Laravel\Nova\Fields\Geolocation\Http;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
+
+use Gabelbart\Laravel\Nova\Fields\Geolocation\Geolocation;
 
 class GeocodingController extends Controller
 {
@@ -14,6 +17,22 @@ class GeocodingController extends Controller
 
         $address = $request->validated();
 
+        $cacheKey = array_filter(array_map(
+            fn ($value) => is_string($value) ? trim($value) : $value,
+            $address
+        ));
+        ksort($cacheKey);
+        $cacheKey = static::class . ":" . hash('md5', json_encode($cacheKey));
+
+        if (Geolocation::shouldCacheGeocodingResults()) {
+            return Cache::rememberForever($cacheKey, fn () => $this->performGeocoding($request, $address));
+        } else {
+            return $this->performGeocoding($request, $address);
+        }
+    }
+
+    protected function performGeocoding(GeocodingRequest $request, array $address): array
+    {
         $addressString = $address[GeocodingRequest::STREET];
         if ($request->has(GeocodingRequest::STREET_NUMBER)
             && !empty($address[GeocodingRequest::STREET_NUMBER])
