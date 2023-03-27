@@ -187,8 +187,6 @@ export default {
     if (this.cHasCurrentValue) {
       this.setCurrentValue(this.value.latitude, this.value.longitude)
       this.setNewValue(this.value.latitude, this.value.longitude)
-    } else {
-      this.setNewValue(this.currentField.defaultLatitude, this.currentField.defaultLongitude)
     }
 
     this.zoom = this.field.defaultZoom
