@@ -194,6 +194,7 @@ export default {
   methods: {
     onClickSelectAddress (result) {
       this.setNewValue(result.lat, result.lng)
+      this.emitNewValue(result.lat, result.lng)
     },
     onUpdateBounds (bounds) {
       this.bounds = bounds
