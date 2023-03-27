@@ -43,6 +43,7 @@
             :options="{ opacity: 0.5 }"
           />
           <l-marker
+            v-if="cHasNewValue"
             :lat-lng="newValue"
           />
         </l-map>
@@ -156,6 +157,12 @@ export default {
         && this.value?.longitude !== null
         && !isNaN(this.value?.latitude)
         && !isNaN(this.value?.longitude)
+    },
+    cHasNewValue () {
+      return this.newValue?.[0] !== null
+        && this.newValue?.[1] !== null
+        && !isNaN(this.newValue?.[0])
+        && !isNaN(this.newValue?.[1])
     },
     cNewValueIsWithinBounds () {
       if (!this.newValue || !this.bounds) {
