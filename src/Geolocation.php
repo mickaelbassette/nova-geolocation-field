@@ -78,47 +78,47 @@ class Geolocation extends Field
         return $this->withMeta([__FUNCTION__ => $longitude]);
     }
 
-    public function defaultZoom($zoom): static
+    public function defaultZoom(int $zoom): static
     {
         return $this->withMeta([__FUNCTION__ => $zoom]);
     }
 
-    public function latitudeField($fieldName): static
+    public function latitudeField(string $fieldName): static
     {
         return $this->withMeta([__FUNCTION__ => $fieldName]);
     }
 
-    public function longitudeField($fieldName): static
+    public function longitudeField(string $fieldName): static
     {
         return $this->withMeta([__FUNCTION__ => $fieldName]);
     }
 
-    public function streetField($fieldName): static
+    public function streetField(string $fieldName): static
     {
         return $this->withMeta([__FUNCTION__ => $fieldName]);
     }
 
-    public function streetNumberField($fieldName): static
+    public function streetNumberField(string $fieldName): static
     {
         return $this->withMeta([__FUNCTION__ => $fieldName]);
     }
 
-    public function postalCodeField($fieldName): static
+    public function postalCodeField(string $fieldName): static
     {
         return $this->withMeta([__FUNCTION__ => $fieldName]);
     }
 
-    public function cityField($fieldName): static
+    public function cityField(string $fieldName): static
     {
         return $this->withMeta([__FUNCTION__ => $fieldName]);
     }
 
-    public function countryField($fieldName): static
+    public function countryField(string $fieldName): static
     {
         return $this->withMeta([__FUNCTION__ => $fieldName]);
     }
 
-    public function regionField($fieldName): static
+    public function regionField(string $fieldName): static
     {
         return $this->withMeta([__FUNCTION__ => $fieldName]);
     }
