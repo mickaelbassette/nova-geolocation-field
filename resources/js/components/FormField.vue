@@ -316,7 +316,9 @@ export default {
       }
     },
     panMapToNewValue () {
-      this.$refs.map.leafletObject.panTo(this.newValue)
+      if (this.cHasNewValue) {
+        this.$refs.map.leafletObject.panTo(this.newValue)
+      }
     },
     setCurrentValue (latitude, longitude) {
       this.currentValue = [latitude, longitude]
