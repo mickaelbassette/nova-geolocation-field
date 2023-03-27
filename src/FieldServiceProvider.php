@@ -2,6 +2,7 @@
 
 namespace Gabelbart\Laravel\Nova\Fields\Geolocation;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,12 +17,17 @@ class FieldServiceProvider extends ServiceProvider
     {
         $this->app->booted(function () {
             $this->routes();
+            $this->locales();
         });
 
         $this->publishes([
             __DIR__ . '/../dist' => public_path(static::PUBLIC_ASSETS_PATH),
         ], ['laravel-assets']);
+        $this->publishes([
+            __DIR__ . '/../resources/lang' => lang_path(static::PUBLIC_ASSETS_PATH),
+        ], ['nova-geolocation-field-lang']);
         Nova::serving(function (ServingNova $event) {
+            $this->novaLocales();
             Nova::script(
                 'geolocation-field',
                 public_path(static::PUBLIC_ASSETS_PATH . '/js/field.js')
@@ -59,5 +65,26 @@ class FieldServiceProvider extends ServiceProvider
         Route::middleware(['nova'])
             ->prefix('nova-vendor/gabelbart/geolocation-field')
             ->group(__DIR__.'/../routes/api.php');
+    }
+
+    protected function locales()
+    {
+        $this->loadJsonTranslationsFrom(__DIR__ . '/../resources/lang');
+        $this->loadJsonTranslationsFrom(lang_path(static::PUBLIC_ASSETS_PATH));
+    }
+
+    protected function novaLocales()
+    {
+        $keys = [
+            'nova_geolocation_field.select_geocoded_address'
+        ];
+
+        $lang = array_combine(
+            $keys,
+            array_map(fn ($key) => __($key), $keys)
+        );
+        Log::debug('lang ', $lang);
+
+        Nova::translations($lang);
     }
 }
