@@ -4,6 +4,8 @@ namespace Gabelbart\Laravel\Nova\Fields\Geolocation;
 
 use Illuminate\Support\Facades\Log;
 
+use Carbon\CarbonInterval;
+
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Fields\SupportsDependentFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -13,6 +15,7 @@ class Geolocation extends Field
     use SupportsDependentFields;
 
     protected static bool $cacheGeocodingResults = true;
+    protected static \DateInterval $geocodingCacheTtl;
 
     const DEFAULT_LATITUDE_FIELD = 'latitude';
     const DEFAULT_LONGITUDE_FIELD = 'longitude';
@@ -51,6 +54,18 @@ class Geolocation extends Field
     public static function shouldCacheGeocodingResults(): bool
     {
         return static::$cacheGeocodingResults;
+    }
+    public static function geocodingCacheTtl(int|\DateInterval $duration)
+    {
+        static::$geocodingCacheTtl = is_int($duration)
+            ? CarbonInterval::minutes($duration)
+            : $duration;
+    }
+    public static function getGeocodingCacheTtl(): \DateInterval
+    {
+        return !empty(static::$geocodingCacheTtl)
+            ? static::$geocodingCacheTtl
+            : CarbonInterval::days(7);
     }
 
     public function defaultLatitude(float $latitude): static

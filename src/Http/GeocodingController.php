@@ -5,6 +5,8 @@ namespace Gabelbart\Laravel\Nova\Fields\Geolocation\Http;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
 
+use Carbon\CarbonInterval;
+
 use Gabelbart\Laravel\Nova\Fields\Geolocation\Geolocation;
 
 class GeocodingController extends Controller
@@ -25,7 +27,11 @@ class GeocodingController extends Controller
         $cacheKey = static::class . ":" . hash('md5', json_encode($cacheKey));
 
         if (Geolocation::shouldCacheGeocodingResults()) {
-            return Cache::rememberForever($cacheKey, fn () => $this->performGeocoding($request, $address));
+            $result = Cache::get($cacheKey, fn () => $this->performGeocoding($request, $address));
+            // Touches the cache everytime its hit
+            Cache::set($cacheKey, Geolocation::getGeocodingCacheTtl());
+
+            return $result;
         } else {
             return $this->performGeocoding($request, $address);
         }
