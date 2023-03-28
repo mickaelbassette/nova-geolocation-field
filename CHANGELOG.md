@@ -1,5 +1,6 @@
 **Fixes:**
 * Fix property type for `min-zoom` and `max-zoom`
+* Fix default zoom not applied
 
 ## 0.2.0 - 2023-03-27
 

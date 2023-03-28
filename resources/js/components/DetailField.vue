@@ -88,6 +88,7 @@ export default {
         ? [this.value.latitude, this.value.longitude]
         : [this.field.defaultLatitude, this.field.defaultLongitude]
       map.panTo(center)
+      map.setZoom(this.field.defaultZoom)
     },
     onUpdateCenter () {
       if (this.cHasValue) {

@@ -319,6 +319,7 @@ export default {
         'dblclick',
         event => this.onDbclickMap(event)
       )
+      map.setZoom(this.currentField.defaultZoom)
     },
     onMoveMap (center) {
       if (this.cSelectViaMove) {
