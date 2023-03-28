@@ -9,8 +9,8 @@
         <l-map
           ref="map"
           v-model:zoom="zoom"
-          max-zoom="18"
-          min-zoom="1"
+          :max-zoom="18"
+          :min-zoom="1"
           @ready="onMapReady"
           @update:center="onUpdateCenter"
         >
