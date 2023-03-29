@@ -1,3 +1,6 @@
+**Fixes:**
+* Fix issue when map was hidden on initialisation for example with [`eminiarts/nova-tabs`](https://github.com/eminiarts/nova-tabs)
+
 # 0.2.1 - 2023-03-28
 
 **Fixes:**

@@ -70,6 +70,10 @@ import {
   LTileLayer,
 } from '@vue-leaflet/vue-leaflet'
 
+import {
+  useMapUtils,
+} from './useMapUtils'
+
 const ADDRESS_FIELD_PROPS = Object.seal([
   'streetField',
   'streetNumberField',
@@ -77,7 +81,7 @@ const ADDRESS_FIELD_PROPS = Object.seal([
   'cityField',
   'countryField',
   'regionField',
-]);
+])
 
 export default {
   components: {
@@ -103,6 +107,9 @@ export default {
       required: true,
     },
   },
+  setup: (props, context) => ({
+    ...useMapUtils(props, context),
+  }),
   data: () => ({
     bounds: null,
     zoom: 10,
@@ -189,7 +196,7 @@ export default {
         && latitude < this.bounds._northEast.lat
         && longitude > this.bounds._southWest.lng
         && longitude < this.bounds._northEast.lng
-    }
+    },
   },
   created () {
     this.registerFieldChangeListeners()
@@ -203,6 +210,9 @@ export default {
     }
 
     this.zoom = this.field.defaultZoom
+  },
+  beforeUnmount () {
+    this.endObservingMapVisibility()
   },
   methods: {
     onClickSelectAddress (result) {
@@ -237,24 +247,24 @@ export default {
     },
     onChangeAddressProperty (property, value) {
       switch (property) {
-      case 'streetField':
-        this.address.street = value
-        break
-      case 'streetNumberField':
-        this.address.street_number = value
-        break
-      case 'postalCodeField':
-        this.address.postal_code = value
-        break
-      case 'cityField':
-        this.address.city = value
-        break
-      case 'countryField':
-        this.address.country = value
-        break
-      case 'regionField':
-        this.address.region = value
-        break
+        case 'streetField':
+          this.address.street = value
+          break
+        case 'streetNumberField':
+          this.address.street_number = value
+          break
+        case 'postalCodeField':
+          this.address.postal_code = value
+          break
+        case 'cityField':
+          this.address.city = value
+          break
+        case 'countryField':
+          this.address.country = value
+          break
+        case 'regionField':
+          this.address.region = value
+          break
       }
 
       if (!this.ignoreAddressChanges
@@ -320,6 +330,8 @@ export default {
         event => this.onDbclickMap(event)
       )
       map.setZoom(this.currentField.defaultZoom)
+
+      this.startObservingMapVisibility(this.$refs.map)
     },
     onMoveMap (center) {
       if (this.cSelectViaMove) {
@@ -406,7 +418,7 @@ export default {
       }
 
       this.ignoreAddressChanges = false
-    }
+    },
   },
 }
 </script>

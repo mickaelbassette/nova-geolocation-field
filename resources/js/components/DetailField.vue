@@ -32,6 +32,10 @@ import {
   LTileLayer,
 } from '@vue-leaflet/vue-leaflet'
 
+import {
+  useMapUtils,
+} from './useMapUtils'
+
 export default {
   components: {
     LMap,
@@ -60,6 +64,9 @@ export default {
       required: true,
     },
   },
+  setup: (props, context) => ({
+    ...useMapUtils(props, context),
+  }),
   data: () => ({
     zoom: 10,
     marker: null,
@@ -82,6 +89,9 @@ export default {
 
     this.zoom = this.field.defaultZoom
   },
+  beforeUnmount () {
+    this.endObservingMapVisibility()
+  },
   methods: {
     onMapReady (map) {
       const center = this.cHasValue
@@ -89,6 +99,8 @@ export default {
         : [this.field.defaultLatitude, this.field.defaultLongitude]
       map.panTo(center)
       map.setZoom(this.field.defaultZoom)
+
+      this.startObservingMapVisibility(this.$refs.map)
     },
     onUpdateCenter () {
       if (this.cHasValue) {
