@@ -2,7 +2,6 @@
 
 namespace Gabelbart\Laravel\Nova\Fields\Geolocation;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -83,7 +82,6 @@ class FieldServiceProvider extends ServiceProvider
             $keys,
             array_map(fn ($key) => __($key), $keys)
         );
-        Log::debug('lang ', $lang);
 
         Nova::translations($lang);
     }

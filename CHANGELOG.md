@@ -1,3 +1,6 @@
+**Fixes**
+* Remove pointless debug log message
+
 ## 0.2.2 - 2023-03-29
 
 **Fixes:**
