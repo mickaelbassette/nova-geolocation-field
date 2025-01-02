@@ -1,5 +1,8 @@
 # Nova Geolocation Field
 
+THIS IS A FORK FROM [JACOB FRICKE](https://gitlab.com/jacobfricke/nova-geolocation-field)
+COMPATIBLE WITH NOVA 5
+
 This package for [Laravel Nova](https://nova.laravel.com/) provides an input control for selecting geo-coordinates on a map.
  In addition, it's possible to geocode addresses.
 

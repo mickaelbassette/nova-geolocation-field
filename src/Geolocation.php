@@ -170,7 +170,7 @@ class Geolocation extends Field
     /**
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function resolve($resource, $attribute = null)
+    public function resolve($resource, ?string $attribute = null): void
     {
         $latitudeField = $this->meta['latitudeField'];
         $longitudeField = $this->meta['longitudeField'];
