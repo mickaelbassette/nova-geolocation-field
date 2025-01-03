@@ -1,5 +1,5 @@
 {
-    "name": "gabelbart/nova-geolocation-field",
+    "name": "mickaelbassette/nova-geolocation-field",
     "description": "A Laravel Nova field.",
     "keywords": [
         "laravel",
