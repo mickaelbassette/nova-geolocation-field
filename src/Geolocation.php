@@ -175,8 +175,8 @@ class Geolocation extends Field
         $latitudeField = $this->meta['latitudeField'];
         $longitudeField = $this->meta['longitudeField'];
 
-        $latitude = $resource->{$latitudeField};
-        $longitude = $resource->{$longitudeField};
+        $latitude = $resource->{$latitudeField} ?? null;
+        $longitude = $resource->{$longitudeField} ?? null;
 
         $this->value = json_encode([
             'latitude' => !is_null($latitude) ? (float) $latitude : null,
